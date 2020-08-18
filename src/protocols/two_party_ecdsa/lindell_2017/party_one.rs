@@ -260,7 +260,8 @@ impl Party1Private {
         let (ek_new, dk_new) = Paillier::keypair().keys();
         let randomness = Randomness::sample(&ek_new);
         let factor_fe: FE = ECScalar::from(&factor);
-        let x1_new = party_one_private.x1 * factor_fe;
+        // let x1_new = party_one_private.x1 * factor_fe;
+        let x1_new = party_one_private.x1.add(&factor_fe.get_element());
         let c_key_new = Paillier::encrypt_with_chosen_randomness(
             &ek_new,
             RawPlaintext::from(x1_new.to_big_int().clone()),
